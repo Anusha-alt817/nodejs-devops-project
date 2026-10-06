@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: nodejs-deployment
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: nodejs
+
+  template:
+    metadata:
+      labels:
+        app: nodejs
+
+    spec:
+      containers:
+        - name: nodejs
+
+          image: 880420038603.dkr.ecr.us-east-1.amazonaws.com/nodejs-devops-repo:latest
+
+          ports:
+            - containerPort: 3000
+
+          env:
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: nodejs-config
+                  key: APP_ENV
